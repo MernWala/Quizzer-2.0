@@ -3,7 +3,7 @@ import mongoose, { Schema } from 'mongoose'
 const SeriesSchema = new Schema({
     name: {
         type: String,
-        require: true
+        required: true
     },
     type: {
         type: String,
@@ -33,7 +33,8 @@ const SeriesSchema = new Schema({
     },
     quizes: {
         type: [Schema.Types.ObjectId],
-        default: []
+        default: [],
+        ref: 'quizes'
     },
     continuous: {
         type: Boolean,

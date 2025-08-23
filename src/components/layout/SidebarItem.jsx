@@ -1,10 +1,10 @@
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
-import React, { useState } from "react"
+import { useState } from "react"
 import { FaCaretDown } from "react-icons/fa";
 import { FaAnglesRight } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 
-const SidebarItem = ({ to, children, hasChild = false, title = "Dropwown Title" }) => {
+const SidebarItem = ({ to, children, hasChild = false, title = "Dropwown Title", onClick, className }) => {
 
     const [isExpanded, setIsExpanded] = useState(false)
 
@@ -16,6 +16,7 @@ const SidebarItem = ({ to, children, hasChild = false, title = "Dropwown Title" 
                 !border !border-gray-800 !rounded-md !text-white !text-opacity-50 hover:!text-opacity-100 hover:!bg-gray-800 
                 !mb-3 hover:!border hover:!border-gray-700 !shadow-none
                 ${isExpanded ? "!bg-gray-800 !text-opacity-100" : "!bg-transparent"}
+                ${className}
             `}
         >
             <AccordionSummary
@@ -47,9 +48,8 @@ const SidebarItem = ({ to, children, hasChild = false, title = "Dropwown Title" 
                 </div>
             </AccordionDetails>
         </Accordion>
-
         :
-        <li className={`${hasChild === true ? "has-child" : ""} border border-gray-800 rounded-md text-white text-opacity-50 hover:text-opacity-100 transition-all hover:transition-all hover:bg-gray-800 mb-3 hover:border hover:border-gray-700`}>
+        <li onClick={onClick} className={`${hasChild === true ? "has-child" : ""} border border-gray-800 rounded-md text-white text-opacity-50 hover:text-opacity-100 transition-all hover:transition-all hover:bg-gray-800 mb-3 hover:border hover:border-gray-700 ${className}`}>
             <Link to={to} className='py-2 px-3 block text-truncate'>{children}</Link>
         </li>
 };

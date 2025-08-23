@@ -26,7 +26,7 @@ const PurchaseHistorySchema = new Schema({
     },
     transectionObject: {
         type: Schema.Types.Mixed,
-        require: true
+        required: true
     },
 }, { timestamps: true })
 

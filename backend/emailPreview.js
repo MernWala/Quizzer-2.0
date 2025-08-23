@@ -2,7 +2,7 @@
  * Important: Make sure you should've browser-sync installed on you machine
  * 
  * To install it use below code on you terminal:
- * npm i browser-sync -D
+ * npm i browser-sync -g
  * 
  */
 

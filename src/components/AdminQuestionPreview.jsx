@@ -11,6 +11,7 @@ import Textarea from './input/Textarea';
 
 const AdminQuestionPreview = ({
     sno = 1,
+    id,
     type = "single_choice",
     children,
     options,
@@ -37,9 +38,9 @@ const AdminQuestionPreview = ({
 
     return (
         <React.Fragment>
-            <div className='p-3 border border-white border-opacity-5 rounded-md bg-white bg-opacity-[0.02] shadow-sm'>
+            <div className='p-3 border border-white/5 rounded-md bg-white/2 shadow-sm'>
                 <div className="flex md:flex-row flex-col-reverse gap-1">
-                    <div className='flex flex-row gap-1'>
+                    <div className='flex flex-row gap-1 w-full'>
                         <span> {sno}. </span>
                         <div className='flex-[1]'>
                             {children}
@@ -48,7 +49,7 @@ const AdminQuestionPreview = ({
                                 {type === "single_choice" && (
                                     <FormControl>
                                         <RadioGroup aria-labelledby="demo-radio-buttons-group-label" name="radio-buttons-group" onChange={(e) => setAnswer(e.target.value)}>
-                                            {options.map((option, index) => (
+                                            {Array.isArray(options) && options.map((option, index) => (
                                                 <FormControlLabel
                                                     key={index}
                                                     value={option}
@@ -62,7 +63,7 @@ const AdminQuestionPreview = ({
 
                                 {type === "multi_choice" && (
                                     <FormGroup>
-                                        {options.map((option, index) => (
+                                        {Array.isArray(options) && options.map((option, index) => (
                                             <FormControlLabel
                                                 key={index}
                                                 control={
@@ -105,10 +106,10 @@ const AdminQuestionPreview = ({
                             <div>
                                 <p className="w-full border-t border-gray-700 my-3"></p>
                                 <div className='flex gap-3'>
-                                    <Button type='button' variant="contained" onClick={() => handleEditQuestion(sno - 1)}>
+                                    <Button type='button' variant="contained" onClick={() => handleEditQuestion(id)}>
                                         <MdEdit className='me-1' /> Edit
                                     </Button>
-                                    <Button type='button' variant="contained" color="error" onClick={() => handleDeleteQuestion(sno - 1)}>
+                                    <Button type='button' variant="contained" color="error" onClick={() => handleDeleteQuestion(id)}>
                                         <FaTrash className="me-1" /> Delete
                                     </Button>
                                 </div>

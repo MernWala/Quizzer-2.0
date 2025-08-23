@@ -1,61 +1,72 @@
-import React, { useContext, useEffect, useState } from 'react'
-import Spinner from '../components/Spinner'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import axios from 'axios'
-import ApiContext from '../context/api/ApiContext'
-import CommonContext from '../context/common/CommonContext'
-import { GoCheckCircleFill } from 'react-icons/go'
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner";
+import { GoCheckCircleFill } from "react-icons/go";
+import { verifyAccount } from "../store/slice/client/auth";
+import CustomToast from "../components/CustomToast"
 
 const AccountVerify = () => {
+  const [params] = useSearchParams();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const [params] = useSearchParams()
-    const [state, setState] = useState(null)
-    const { backendHost } = useContext(ApiContext)
-    const { CustomToast } = useContext(CommonContext)
-    const navigate = useNavigate();
+  const { loading, verifyStatus, error } = useSelector((state) => state.auth);
 
-    useEffect(() => {
-        if (params.get("token") && params.get("accountVerify") === "true") {
-            setState(<>Verifying Account <Spinner /></>)
-            axios.get(
-                `${backendHost}/api/common/auth/manual/verify?token=${params.get("token")}`
-            ).then((response) => {
-                if (response?.data?.verify === true) {
-                    setState(() => {
-                        return <>
-                            Account verified <GoCheckCircleFill />
-                        </>
-                    })
+  useEffect(() => {
+    const token = params.get("token");
+    const accountVerify = params.get("accountVerify");
 
-                    CustomToast("Success", "Account verification succes. Redirecting to login page")
-
-                    setTimeout(() => {
-                        navigate("/auth", { replace: true })
-                    }, 3000);
-                }
-            }).catch((error) => {
-                console.error(error)
-                setState({ error: true, msg: JSON.stringify(error?.response?.data) || error?.message || "Unkown Error" })
-            })
+    if (token && accountVerify === "true") {
+      dispatch(verifyAccount(token)).then((res) => {
+        if (verifyAccount.fulfilled.match(res)) {
+          CustomToast("Success", res.payload.message, 5000);
+          setTimeout(() => {
+            navigate("/auth", { replace: true });
+          }, 3000);
+        } else {
+          CustomToast("Error", res.payload.message);
         }
-    }, [params, backendHost, CustomToast, navigate])
+      });
+    }
+  }, [dispatch, params, CustomToast, navigate]);
 
-
-    return (
-        <div className='flex flex-col justify-center items-center min-h-[100vh] bg-purple-flower'>
-            {!state?.error &&
-                <div className='flex items-center justify-center bg-[#00000080] p-4 rounded-md' style={{ backdropFilter: 'blur(10px' }}>
-                    <span className="text-lg text-white font-medium tracking-wide flex items-center gap-2 justify-center">{state}</span>
-                </div>
-            }
-
-            {state?.error &&
-                <div className='md:w-1/2 w-11/12 mt-5 flex items-center justify-center bg-[#00000080] p-4 rounded-md' style={{ backdropFilter: 'blur(10px' }}>
-                    <span className="text-lg text-white font-medium tracking-wide flex items-center gap-2 justify-center text-center">{state?.msg}</span>
-                </div>
-            }
+  return (
+    <div className="flex flex-col justify-center items-center min-h-[100vh] bg-purple-flower">
+      {loading && (
+        <div
+          className="flex items-center justify-center bg-[#00000080] p-4 rounded-md"
+          style={{ backdropFilter: "blur(10px)" }}
+        >
+          <span className="text-lg text-white font-medium tracking-wide flex items-center gap-2 justify-center">
+            Verifying Account <Spinner />
+          </span>
         </div>
-    )
-}
+      )}
 
-export default AccountVerify
+      {verifyStatus === "success" && !loading && (
+        <div
+          className="flex items-center justify-center bg-[#00000080] p-4 rounded-md"
+          style={{ backdropFilter: "blur(10px)" }}
+        >
+          <span className="text-lg text-white font-medium tracking-wide flex items-center gap-2 justify-center">
+            Account Verified <GoCheckCircleFill />
+          </span>
+        </div>
+      )}
+
+      {verifyStatus === "error" && !loading && (
+        <div
+          className="md:w-1/2 w-11/12 mt-5 flex items-center justify-center bg-[#00000080] p-4 rounded-md"
+          style={{ backdropFilter: "blur(10px)" }}
+        >
+          <span className="text-lg text-white font-medium tracking-wide flex items-center gap-2 justify-center text-center">
+            {error}
+          </span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AccountVerify;

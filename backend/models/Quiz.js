@@ -4,7 +4,7 @@ import FormSchema from "./Form.js"
 const QuizeSchema = new Schema({
     name: {
         type: String,
-        require: true
+        required: true
     },
     quizType: {
         type: String,
@@ -14,10 +14,6 @@ const QuizeSchema = new Schema({
     visibility: {
         type: Boolean,
         required: true
-    },
-    publishOn: {
-        type: Date,
-        default: Date.now()
     },
     totalTime: {
         type: Number,   // Values in second

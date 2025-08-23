@@ -40,5 +40,6 @@ export const validateDate = (key) => body(key)
 
 export const validateTotalTime = (key) => body(key)
     .optional()
+    .toInt()
     .isInt({ min: 0 })
     .withMessage(`${key} must be a non-negative integer representing time in seconds.`);

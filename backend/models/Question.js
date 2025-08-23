@@ -20,6 +20,10 @@ const QuestionSchema = new Schema({
         type: [String],
         required: true,
     },
+    marks: {
+        type: Number,
+        default: 1
+    },
     type: {
         type: String,
         enum: ["single_choice", "multi_choice", "short_answer", "long_answer"],
