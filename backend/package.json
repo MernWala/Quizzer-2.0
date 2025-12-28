@@ -4,8 +4,8 @@
   "type": "module",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "dev": "concurrently \"nodemon ./emailPreview.js\" \"npx browser-sync start --config ./browser-sync.config.cjs\""
+    "dev": "nodemon app.js",
+    "preview": "concurrently \"nodemon ./emailPreview.js\" \"npx browser-sync start --config ./browser-sync.config.cjs\""
   },
   "author": "Shivam Kashyap",
   "license": "ISC",
