@@ -4,6 +4,7 @@ import SendEmail from '../utils/SendEmail.js'
 import emailTemplates from '../emails/main.js'
 import { FRONTENDHOST } from '../config.js'
 import { cookieOptions, hashString, RegisterUser, generateToken, jwtToPayload, comparePassword, compareString } from '../utils/Genral.js'
+import getUser from '../hooks/getUser.js'
 
 const {
     AccountActivateSend,
@@ -12,36 +13,6 @@ const {
     PasswordChangeAcknowledgement,
     PasswordChangeRequest,
 } = emailTemplates
-
-export const ManualRegister = async (req, res) => {
-    try {
-        let user = await UserSchema.findOne({ email: req.body.email })
-
-        if (!user || !user?.verified) {
-            if (!user) {
-                user = await RegisterUser(req.body);
-            }
-
-            const verificationToken = generateToken({ _id: user?._id, email: user?.email }, { expiresIn: 15 * 60 })
-            const mail = await SendEmail({
-                to: user?.email,
-                subject: "Account Verification",
-                html: AccountVerification(`${FRONTENDHOST}/#/auth/verify?token=${verificationToken}&accountVerify=${true}`),
-            });
-
-            return res.json({
-                register: true,
-                mail: mail ? true : false,
-            });
-
-        } else {
-            return res.status(403).json({ register: false, error: `User with ${user.email} already exist!` });
-        }
-
-    } catch (error) {
-        CustomError(error, res)
-    }
-};
 
 export const ManualVerifyAccount = async (req, res) => {
     try {
@@ -76,12 +47,11 @@ export const ManualVerifyAccount = async (req, res) => {
 
 export const ManualLogin = async (req, res) => {
     try {
-
-        const { email, pass } = req.body;
-        const user = await UserSchema.findOne({ email }).select("-recoveryToken -deactivate -clientData -adminData -__v");
+        const { email, pass, role } = req.body;
+        const user = await UserSchema.findOne({ email, role }).select("-recoveryToken -clientData -adminData -__v -createdAt -updatedAt");
 
         if (!user) {
-            return res.status(401).json({
+            return res.status(404).json({
                 error: true,
                 message: "User with this email not found."
             });
@@ -90,7 +60,7 @@ export const ManualLogin = async (req, res) => {
         if (user?.deactivate) {
             return res.status(400).json({
                 error: true,
-                message: "Account is deactivated."
+                message: "Account is deactivated. Try to reset password."
             })
         }
 
@@ -120,8 +90,8 @@ export const ManualLogin = async (req, res) => {
         res.cookie("token", token, cookieOptions);
 
         return res.status(200).json({
-            token,
             user,
+            isAuthenticated: true,
             message: "Login successful",
         });
 
@@ -130,9 +100,42 @@ export const ManualLogin = async (req, res) => {
     }
 };
 
+export const ManualRegister = async (req, res) => {
+    try {
+        let user = await UserSchema.findOne({ email: req.body.email })
+        if(user) {
+            return res.status(403).json({ 
+                register: false,
+                error: true,
+                message: `User with ${user.email} already exist!`
+            });
+        }
+
+        if (!user || !user?.verified) {
+            if (!user) {
+                user = await RegisterUser(req.body);
+            }
+
+            const verificationToken = generateToken({ _id: user?._id, email: user?.email }, { expiresIn: 15 * 60 })
+            const mail = await SendEmail({
+                to: user?.email,
+                subject: "Account Verification",
+                html: AccountVerification(`${FRONTENDHOST}/#/auth/verify?token=${verificationToken}&accountVerify=${true}`),
+            });
+
+            return res.json({
+                register: true,
+                mail: mail ? true : false,
+            });
+        }
+
+    } catch (error) {
+        CustomError(error, res)
+    }
+};
+
 export const PasswordReset_Send = async (req, res) => {
     try {
-
         const { email } = req.body
         const user = await UserSchema.findOne({ email })
 
@@ -141,6 +144,11 @@ export const PasswordReset_Send = async (req, res) => {
                 mail: false,
                 error: "User with this email does'nt exist!"
             })
+        }
+
+        let activate = false;
+        if(user?.deactivate === true) {
+            activate = true;
         }
 
         const token = generateToken({ _id: user?._id, email: user?.email }, { expiresIn: 15 * 60 });
@@ -152,17 +160,15 @@ export const PasswordReset_Send = async (req, res) => {
 
         const mail = await SendEmail({
             to: email,
-            subject: req?.body?.activate ? "Account Activation" : "Account Recovery",
-            // TODO: Link check of account activate
-            html: req?.body?.activate ? AccountActivateSend(user?.name, `${FRONTENDHOST}/#/?token=${token}&activation=true`) : PasswordChangeRequest(`${FRONTENDHOST}/#/auth/change-password?token=${token}&passwordreset=true`),
+            subject: activate ? "Account Activation" : "Account Recovery",
+            html: activate ? AccountActivateSend(user?.name, `${FRONTENDHOST}/#/auth/change-password?token=${token}&activation=true`) : PasswordChangeRequest(`${FRONTENDHOST}/#/auth/change-password?token=${token}&passwordreset=true`),
         })
 
         return res.json({
             mail: mail ? true : false,
             error: mail && update ? false : true,
-            activation: req?.body?.activate ? true : false,
-            passwordreset: req?.body?.activate ? false : true,
-            token,
+            activation: activate ? true : false,
+            passwordreset: activate ? false : true,
         })
 
     } catch (error) {
@@ -197,7 +203,7 @@ export const PasswordReset_Reset = async (req, res) => {
             const hashPass = await hashString(pass)
             const update = await UserSchema.findByIdAndUpdate(
                 { _id: decoded?._id },
-                { $set: { hashPass, recoveryToken: null } },
+                { $set: { hashPass, recoveryToken: null, deactivate: false } },
                 { new: true } // Return the updated document
             );
 
@@ -224,7 +230,6 @@ export const PasswordReset_Reset = async (req, res) => {
     }
 };
 
-// Attempt to deactivate account || Only available for role: admin
 export const DeactivateAccount = async (req, res) => {
     try {
 
@@ -248,8 +253,7 @@ export const DeactivateAccount = async (req, res) => {
         const mail = await SendEmail({
             to: update?.email,
             subject: "Account Deactivation",
-            // TODO: Link check
-            html: AccountDeactivateAcknowledgement(update?.name, `${FRONTENDHOST}/`)
+            html: AccountDeactivateAcknowledgement(update?.name, `${FRONTENDHOST}/#/auth/recover`),
         })
 
         res.clearCookie('token');
@@ -265,62 +269,46 @@ export const DeactivateAccount = async (req, res) => {
     }
 };
 
-export const ReactivateAccount_Send = (req, res, next) => {
-    try {
+export const logout = (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+    });
 
-        req.body.activate = true
-        next();
-
-    } catch (error) {
-        CustomError(error, res);
-    }
+    return res.status(200).json({ message: "Logged out successfully" });
+  } catch (error) {
+    console.error("Logout Error:", error);
+    return res.status(500).json({ message: "Something went wrong during logout" });
+  }
 };
 
-export const ReactivateAccount_Activate = async (req, res) => {
-    try {
-
-        const { token } = req.query
-        const { valid, expired, decoded } = jwtToPayload(token);
-
-        if (!valid) {
-            return res.status(400).json({
-                reset: false,
-                message: expired ? "Token has expired! Please try to register again." : "Invalid token!",
-            });
-        };
-
-        let user = await UserSchema.findById({ _id: decoded?._id })
-        if (!user) {
-            return res.status(404).json({
-                reset: false,
-                message: "User with this email not found.",
-            })
-        }
-
-        const matched = compareString(JSON.stringify(token), JSON.stringify(user?.recoveryToken))
-        if (matched) {
-            const update = await UserSchema.findByIdAndUpdate(
-                { _id: user?.id },
-                { $set: { deactivate: false, recoveryToken: null } },
-                { new: true }
-            )
-
-            const token = generateToken({ _id: user?._id });
-            res.cookie("token", token, cookieOptions);
-
-            return res.status(200).json({
-                token,
-                update,
-                message: "Account has been activated",
-            });
-        }
-
-        return res.json({
-            reset: false,
-            message: "Token malfunctioned! Try to re-send password request.",
-        })
-
-    } catch (error) {
-        CustomError(error, res)
+export const CheckIsAuthenticated = async (req, res) => {
+  try {
+    const token = req.cookies?.token;
+    if (!token) {
+      return res.status(401).json({
+        isAuthenticated: false,
+        message: "No token provided"
+      });
     }
+
+    const { user: userFullDetails } = await getUser(token);
+    const user = await UserSchema.findOne({ email: userFullDetails?.email, role: userFullDetails?.role }).select("-recoveryToken -deactivate -clientData -adminData -__v -createdAt -updatedAt");
+    if (!user) {
+      return res.status(404).json({
+        isAuthenticated: false,
+        message: "User with this email not found",
+      });
+    }
+
+    return res.status(200).json({
+      isAuthenticated: true,
+      user
+    });
+  } catch (error) {
+    CustomError(error, res);
+  }
 };
+

@@ -62,7 +62,7 @@ export const AdminAuthorityCheck = async (req, res, next) => {
 
         const { error, status, message, _id } = GetUserId(req?.cookies?.token);
         if (error) {
-            return res.status(status).json({ error, message })
+            return res.status(status).json({ error, message, isAuthenticated: false })
         }
 
         const user = await UserSchema.findById({ _id });

@@ -2,7 +2,7 @@ import express from 'express'
 import ExpressValidator from '../../middleware/ExpressValidator.js'
 import { validateJWT } from '../../validation/queryValidation.js'
 import { validateEmail, validateName, validatePassword, validateRole } from '../../validation/bodyValidation.js'
-import { ManualLogin, ManualRegister, ManualVerifyAccount, PasswordReset_Send, PasswordReset_Reset, ReactivateAccount_Send, DeactivateAccount, ReactivateAccount_Activate } from '../../controllers/auth.js'
+import { ManualLogin, ManualRegister, ManualVerifyAccount, PasswordReset_Send, PasswordReset_Reset, DeactivateAccount, logout } from '../../controllers/auth.js'
 import { AdminAuthorityCheck } from '../../validation/authorityCheck.js'
 
 const router = express.Router();
@@ -41,18 +41,9 @@ router.post("/password-reset/reset",
 router.post("/deactivate-account",
     [validatePassword("pass")],
     AdminAuthorityCheck, ExpressValidator, DeactivateAccount
-)
+);
 
-// Route 7: Account activate send
-router.post("/activate-account/send",
-    [validateEmail("email")],
-    ExpressValidator, ReactivateAccount_Send, PasswordReset_Send
-)
-
-// Route 8: Account activate activate
-router.post("/activate-account/activate",
-    [validateJWT("token")],
-    ExpressValidator, ReactivateAccount_Activate
-)
+// Route 7: Logout user
+router.post("/logout", logout)
 
 export default router;

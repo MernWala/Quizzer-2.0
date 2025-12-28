@@ -46,7 +46,7 @@ app.use((req, res, next) => {
 
 // Middleware setup
 app.use(cors(corsOptions));
-app.use(InternetCheck);
+// app.use(InternetCheck);
 app.use(express.json());
 app.use(cookieParser());
 app.use(helmet()); // Security headers

@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@import "./backgrounds.css";
+@import "./custom_scroll.css";
+
+.user-select-none {
+    user-select: none !important;
+}
+
+.custom-input-container {
+    position: relative;
+}
+
+.custom-input-container input,
+.custom-input-container select {
+    transition: all 0.2s ease-in-out;
+    appearance: none;
+    width: calc(100% - var(--pass));
+}
+
+.custom-input-container label {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #737373;
+    transition: all 0.2s ease-in-out;
+    pointer-events: none;
+    max-width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.custom-input-container:has(.textarea-custom) label {
+    top: 20%
+}
+
+.custom-input-container input:focus+label,
+.custom-input-container input:not(:placeholder-shown)+label,
+.custom-input-container select:focus+label,
+.custom-input-container select:not([value=""])+label,
+.custom-input-container textarea:focus+label,
+.custom-input-container textarea:not(:placeholder-shown)+label {
+    top: 10px;
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.custom-spinner {
+    animation: spin 0.25s linear infinite;
+}
+
+.text-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+th {
+    font-weight: 500;
+}
+
+body [aria-describedby=transition-modal-description] {
+    backdrop-filter: blur(5px) brightness(.5);
+}
