@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Link,
-  Navigate,
-  Outlet,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
 import { Drawer, Tooltip } from "@mui/material";
 import { AiOutlineLogout } from "react-icons/ai";
 import { HiMiniBars3CenterLeft } from "react-icons/hi2";
@@ -23,8 +17,9 @@ import Spinner from "../../components/Spinner";
 import CustomToast from "../CustomToast";
 import { useAuthCheck } from "../../hooks/useAdminAuth";
 import { logoutUser } from "../../store/slice/client/auth";
-import { fetchAllQuizzes, getQuiz } from "../../store/slice/admin/quiz";
+import { fetchAllQuizzes } from "../../store/slice/admin/quiz";
 import { fetchAllSeries } from "../../store/slice/admin/series";
+import DashboardTitle from "../DashboardTitle";
 
 const DashboardLayoutWraper = () => {
   const [sidebar, setSidebar] = useState(false);
@@ -81,28 +76,6 @@ const DashboardLayoutWraper = () => {
       console.log("throw back");
     }
   }, [dispatch, isAuthenticated]);
-
-  // getQuiz
-  const [breadcrumbData, setBreadcrumbData] = useState(null);
-  const { pathname } = useLocation();
-  useEffect(() => {
-    switch (true) {
-      case pathname.includes("/dashboard/admin/quiz"):
-        console.log("Quiz");
-        break;
-      case pathname.includes("/dashboard/admin/series"):
-        console.log("Series");
-        break;
-      case pathname.includes("/dashboard/admin/analyze"):
-        console.log("Analyze");
-        break;
-      case pathname.includes("/dashboard/admin"):
-        console.log("Overview");
-        break;
-      default:
-        console.log("Default");
-    }
-  }, [pathname]);
 
   if (loading) return <div>Loading...</div>;
   return isAuthenticated ? (
@@ -220,8 +193,8 @@ const DashboardLayoutWraper = () => {
           </div>
           <div className="w-[calc(100vw-3.5rem)] flex items-center flex-[1]">
             <div className="lg:w-1/2 w-full flex lg:justify-start justify-center ps-4 lg:pe-0 pe-4">
-              <span className="font-medium text-lg tracking-wider text-truncate block w-full">
-                {"breadcrumb goes here"}
+              <span className="font-medium text-lg tracking-wider overflow-auto block w-full">
+                <DashboardTitle />
               </span>
             </div>
 
