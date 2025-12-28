@@ -13,9 +13,9 @@ const SidebarItem = ({ to, children, hasChild = false, title = "Dropwown Title",
             expanded={isExpanded}
             onChange={() => setIsExpanded(!isExpanded)}
             className={`
-                !border !border-gray-800 !rounded-md !text-white !text-opacity-50 hover:!text-opacity-100 hover:!bg-gray-800 
-                !mb-3 hover:!border hover:!border-gray-700 !shadow-none
-                ${isExpanded ? "!bg-gray-800 !text-opacity-100" : "!bg-transparent"}
+                border! border-gray-800! rounded-md! text-white! text-opacity-50! hover:text-opacity-100! hover:bg-gray-800! 
+                mb-3! hover:border! hover:border-gray-700! shadow-none!
+                ${isExpanded ? "bg-gray-800! text-opacity-100!" : "bg-transparent!"}
                 ${className}
             `}
         >

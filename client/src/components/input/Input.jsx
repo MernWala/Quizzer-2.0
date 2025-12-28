@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 
 const Input = (props) => {

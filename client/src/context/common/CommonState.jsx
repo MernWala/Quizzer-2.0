@@ -2,7 +2,6 @@ import CommonContext from "./CommonContext";
 import toast from "react-hot-toast";
 import { IoIosCloseCircle } from "react-icons/io";
 import dayjs from "dayjs";
-import { useCallback, useRef } from "react";
 
 const CommonState = (props) => {
   const handleOnChange = (() => {

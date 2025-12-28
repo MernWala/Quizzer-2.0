@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Fade,
-  FormControlLabel,
-  Modal,
-  Radio,
-  RadioGroup,
-} from "@mui/material";
+import { Box, Button, Fade, FormControlLabel, Modal, Radio, RadioGroup } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 import CommonContext from "../../../context/common/CommonContext";
@@ -59,12 +51,12 @@ const page = () => {
         aria-describedby="create-quiz-description"
         open={createQuizeModal}
         onClose={onCloseAddQuizModal}
-        className="!overflow-auto"
+        className="overflow-auto!"
       >
         <Fade in={createQuizeModal}>
           <Box
             sx={{ transform: "translate(-50%, -50%)" }}
-            className={`absolute top-[50%] left-[50%] min-w-[500px] !max-w-full rounded-md shadow-md bg-gray-800 !backdrop-brightness-50 !backdrop-blur-md overflow-hidden`}
+            className={`absolute top-[50%] left-[50%] min-w-125 max-w-full! rounded-md shadow-md bg-gray-800 backdrop-brightness-50! backdrop-blur-md! overflow-hidden`}
           >
             <div className="bg-gray-900 py-1 px-2 text-white tracking-wide mb-3 flex items-center justify-between">
               <span className="text-lg">Fill below details:</span>
@@ -77,7 +69,7 @@ const page = () => {
               <form className="space-y-7" onSubmit={handleCreateQuiz}>
                 {/* Quiz Name */}
                 <div className="border border-gray-600 p-3 rounded-md relative">
-                  <span className="text-white tracking-wider bg-gray-800 absolute top-[-1rem] px-2">
+                  <span className="text-white tracking-wider bg-gray-800 absolute -top-4 px-2">
                     Quiz Name
                   </span>
                   <Input
@@ -92,13 +84,13 @@ const page = () => {
                 </div>
 
                 <div className="border border-gray-600 p-3 rounded-md relative">
-                  <span className="text-white tracking-wider bg-gray-800 absolute top-[-1rem] px-2">
+                  <span className="text-white tracking-wider bg-gray-800 absolute -top-4 px-2">
                     Quiz Type
                   </span>
                   <RadioGroup
                     aria-labelledby="quiz-type-label"
                     name="quizType"
-                    className="!flex !flex-row !text-white"
+                    className="flex! flex-row! text-white!"
                     value={formState.quizType || "Free"}
                     onChange={(e) => handleOnChange(e, setFormState)}
                   >
@@ -116,12 +108,12 @@ const page = () => {
                 </div>
 
                 <div className="border border-gray-600 p-3 rounded-md relative">
-                  <span className="text-white tracking-wider bg-gray-800 absolute top-[-1rem] px-2">
+                  <span className="text-white tracking-wider bg-gray-800 absolute -top-4 px-2">
                     Visibility
                   </span>
                   <RadioGroup
                     name="visibility"
-                    className="!flex !flex-row !text-white"
+                    className="flex! flex-row! text-white!"
                     value={formState.visibility?.toString() || "true"}
                     onChange={(e) => handleOnChange(e, setFormState)}
                   >
@@ -143,13 +135,13 @@ const page = () => {
                 </div>
 
                 <div className="border border-gray-600 p-3 rounded-md relative">
-                  <span className="text-white tracking-wider bg-gray-800 absolute top-[-1rem] px-2">
+                  <span className="text-white tracking-wider bg-gray-800 absolute -top-4 px-2">
                     Section Switch
                   </span>
 
                   <RadioGroup
                     name="sectionSwitch"
-                    className="!flex !flex-row !text-white"
+                    className="flex! flex-row! text-white!"
                     value={formState.sectionSwitch?.toString() || "true"}
                     onChange={(e) => handleOnChange(e, setFormState)}
                   >

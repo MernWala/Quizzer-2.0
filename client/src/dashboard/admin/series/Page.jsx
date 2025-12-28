@@ -3,22 +3,10 @@ import QuizFolder from "../../../components/QuizFolder";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import CommonContext from "../../../context/common/CommonContext";
-import {
-  Box,
-  Button,
-  Fade,
-  FormControlLabel,
-  Modal,
-  Radio,
-  RadioGroup,
-} from "@mui/material";
+import { Box, Button, Fade, FormControlLabel, Modal, Radio, RadioGroup } from "@mui/material";
 import { IoIosCloseCircle } from "react-icons/io";
 import Input from "../../../components/input/Input";
-import {
-  createSeries,
-  deleteSeries,
-  updateSeries,
-} from "../../../store/slice/admin/series";
+import { createSeries, deleteSeries, updateSeries } from "../../../store/slice/admin/series";
 import CustomToast from "../../../components/CustomToast";
 import DetailBox from "../../../components/DetailBox";
 import dayjs from "dayjs";
@@ -142,12 +130,12 @@ const page = () => {
         aria-describedby="update-series-description"
         open={editSeriesFlag ? true : false}
         onClose={handleCloseEditModal}
-        className="!overflow-auto"
+        className="overflow-auto!"
       >
         <Fade in={editSeriesFlag ? true : false}>
           <Box
             sx={{ transform: "translate(-50%, -50%)" }}
-            className={`absolute top-[50%] left-[50%] w-full h-screen overflow-auto shadow-md bg-gray-800 !backdrop-brightness-50 !backdrop-blur-md`}
+            className={`absolute top-[50%] left-[50%] w-full h-screen overflow-auto shadow-md bg-gray-800 backdrop-brightness-50! backdrop-blur-md!`}
           >
             <div className="bg-gray-900 w-full py-2 px-3 sticky top-0 flex items-center justify-between">
               <span className="text-lg font-medium text-white">
@@ -293,7 +281,7 @@ const page = () => {
                     }
                   >
                     <div className="border border-gray-600 p-3 rounded-md relative h-full">
-                      <span className="text-white tracking-wider bg-gray-700 absolute top-[-1rem] px-2 text-truncate block max-w-full">
+                      <span className="text-white tracking-wider bg-gray-700 absolute -top-4 px-2 text-truncate block max-w-full">
                         Name
                       </span>
                       <Input
@@ -308,13 +296,13 @@ const page = () => {
                     </div>
 
                     <div className="border border-gray-600 p-3 rounded-md relative h-full">
-                      <span className="text-white tracking-wider bg-gray-700 absolute top-[-1rem] px-2 text-truncate block max-w-full">
+                      <span className="text-white tracking-wider bg-gray-700 absolute -top-4 px-2 text-truncate block max-w-full">
                         Series Type
                       </span>
                       <RadioGroup
                         aria-labelledby="question-type-label"
                         name="type"
-                        className="!flex !flex-row !flex-wrap !text-white"
+                        className="flex! flex-row! flex-wrap! text-white!"
                         value={seriesSettings?.type ?? "Free"}
                         onChange={(e) => handleOnChange(e, setSeriesSettings)}
                       >
@@ -337,13 +325,13 @@ const page = () => {
                     </div>
 
                     <div className="border border-gray-600 p-3 rounded-md relative h-full">
-                      <span className="text-white tracking-wider bg-gray-700 absolute top-[-1rem] px-2 text-truncate block max-w-full">
+                      <span className="text-white tracking-wider bg-gray-700 absolute -top-4 px-2 text-truncate block max-w-full">
                         Continuous (Switch between quizes):
                       </span>
                       <RadioGroup
                         aria-labelledby="question-type-label"
                         name="continuous"
-                        className="!flex !flex-row !flex-wrap !text-white"
+                        className="flex! flex-row! flex-wrap! text-white!"
                         value={seriesSettings?.continuous}
                         onChange={(e) => handleOnChange(e, setSeriesSettings)}
                       >
@@ -361,7 +349,7 @@ const page = () => {
                     </div>
 
                     <div className="border border-gray-600 p-3 rounded-md relative h-full">
-                      <span className="text-white tracking-wider bg-gray-700 absolute top-[-1rem] px-2 text-truncate block max-w-full">
+                      <span className="text-white tracking-wider bg-gray-700 absolute -top-4 px-2 text-truncate block max-w-full">
                         Total Time (0: Unlimited)
                       </span>
                       <Input
@@ -376,7 +364,7 @@ const page = () => {
                     </div>
 
                     <div className="border border-gray-600 p-3 rounded-md relative h-full">
-                      <span className="text-white tracking-wider bg-gray-700 absolute top-[-1rem] px-2 text-truncate block max-w-full">
+                      <span className="text-white tracking-wider bg-gray-700 absolute -top-4 px-2 text-truncate block max-w-full">
                         Will be hideen after (Not-set: Unlimited)
                       </span>
                       <Input
@@ -414,12 +402,12 @@ const page = () => {
         aria-describedby="create-quiz-description"
         open={createSeriesModal}
         onClose={onCloseAddQuizModal}
-        className="!overflow-auto"
+        className="overflow-auto!"
       >
         <Fade in={createSeriesModal}>
           <Box
             sx={{ transform: "translate(-50%, -50%)" }}
-            className={`absolute top-[50%] left-[50%] min-w-[500px] !max-w-full rounded-md shadow-md bg-gray-800 !backdrop-brightness-50 !backdrop-blur-md overflow-hidden`}
+            className={`absolute top-[50%] left-[50%] min-w-125 max-w-full! rounded-md shadow-md bg-gray-800 backdrop-brightness-50! backdrop-blur-md! overflow-hidden`}
           >
             <div className="bg-gray-900 py-1 px-2 text-white tracking-wide mb-3 flex items-center justify-between">
               <span className="text-lg">Fill below details:</span>
@@ -432,7 +420,7 @@ const page = () => {
               <form className="space-y-7" onSubmit={handleCreateSeries}>
                 {/* Series Name */}
                 <div className="border border-gray-600 p-3 rounded-md relative">
-                  <span className="text-white tracking-wider bg-gray-800 absolute top-[-1rem] px-2">
+                  <span className="text-white tracking-wider bg-gray-800 absolute -top-4 px-2">
                     Series Name
                   </span>
                   <Input
@@ -447,13 +435,13 @@ const page = () => {
                 </div>
 
                 <div className="border border-gray-600 p-3 rounded-md relative">
-                  <span className="text-white tracking-wider bg-gray-800 absolute top-[-1rem] px-2">
+                  <span className="text-white tracking-wider bg-gray-800 absolute -top-4 px-2">
                     Series Type
                   </span>
                   <RadioGroup
                     aria-labelledby="quiz-type-label"
                     name="type"
-                    className="!flex !flex-row !text-white"
+                    className="flex! flex-row! text-white!"
                     value={formState.quizType || "Free"}
                     onChange={(e) => handleOnChange(e, setFormState)}
                   >
@@ -471,12 +459,12 @@ const page = () => {
                 </div>
 
                 <div className="border border-gray-600 p-3 rounded-md relative">
-                  <span className="text-white tracking-wider bg-gray-800 absolute top-[-1rem] px-2">
+                  <span className="text-white tracking-wider bg-gray-800 absolute -top-4 px-2">
                     Visibility
                   </span>
                   <RadioGroup
                     name="visibility"
-                    className="!flex !flex-row !text-white"
+                    className="flex! flex-row! text-white!"
                     value={formState.visibility?.toString() || "true"}
                     onChange={(e) => handleOnChange(e, setFormState)}
                   >

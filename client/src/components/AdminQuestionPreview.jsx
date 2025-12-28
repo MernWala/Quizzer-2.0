@@ -42,7 +42,7 @@ const AdminQuestionPreview = ({
                 <div className="flex md:flex-row flex-col-reverse gap-1">
                     <div className='flex flex-row gap-1 w-full'>
                         <span> {sno}. </span>
-                        <div className='flex-[1]'>
+                        <div className='flex-1'>
                             {children}
 
                             <div>
@@ -118,7 +118,7 @@ const AdminQuestionPreview = ({
                     </div>
 
                     <div>
-                        <span className="inline-flex flex-shrink-0 rounded-full bg-gray-700 shadow-md px-3 py-1 text-sm text-truncate"> {marks} Marks </span>
+                        <span className="inline-flex shrink-0 rounded-full bg-gray-700 shadow-md px-3 py-1 text-sm text-truncate"> {marks} Marks </span>
                     </div>
                 </div>
             </div>
