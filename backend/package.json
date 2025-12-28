@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
-    "preview": "concurrently \"nodemon ./emailPreview.js\" \"npx browser-sync start --config ./browser-sync.config.cjs\""
+    "dev": "concurrently \"nodemon ./emailPreview.js\" \"npx browser-sync start --config ./browser-sync.config.cjs\""
   },
   "author": "Shivam Kashyap",
   "license": "ISC",
