@@ -27,7 +27,7 @@ const RecoverLinkGenerate = () => {
   };
 
   return (
-    <div className="flex justify-center items-stretch min-h-[100vh] bg-purple-flower">
+    <div className="flex justify-center items-stretch min-h-screen bg-purple-flower">
       <div className="w-full flex flex-col p-5 items-center justify-center bg-[#000000a9]">
         <div
           className="rounded-md p-10 pt-5 border border-neutral-50"
@@ -41,7 +41,7 @@ const RecoverLinkGenerate = () => {
           </div>
 
           <form
-            className="space-y-4 block min-w-[300px] max-w-[500px]"
+            className="space-y-4 block min-w-75 max-w-125"
             onSubmit={handleFormSubmit}
           >
             <Input

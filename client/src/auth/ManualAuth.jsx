@@ -50,7 +50,7 @@ const ManualAuth = () => {
   };
 
   return (
-    <div className="flex justify-center items-stretch min-h-[100vh] bg-purple-flower">
+    <div className="flex justify-center items-stretch min-h-screen bg-purple-flower">
       <div className="lg:w-1/2 lg:flex hidden p-5" data-aos="fade-right">
         {/* TODO: Insert a proper graphics and typography stuff */}
       </div>
@@ -66,7 +66,7 @@ const ManualAuth = () => {
             </span>
           </div>
           <form
-            className="space-y-4 block min-w-[300px] max-w-[500px]"
+            className="space-y-4 block min-w-75 max-w-125"
             onSubmit={handleFormSubmit}
             data-aos="zoom-in"
           >
@@ -74,7 +74,7 @@ const ManualAuth = () => {
               <RadioGroup
                 aria-labelledby="quiz-type-label"
                 name="role"
-                className="!flex !flex-row !text-white"
+                className="flex! flex-row! text-white!"
                 value={formData?.role ?? "client"}
                 onChange={(e) => handleOnChange(e, setFormData)}
               >
@@ -86,7 +86,7 @@ const ManualAuth = () => {
                       <Radio
                         sx={customRadioStyle}
                         disabled={loading}
-                        className="!py-0"
+                        className="py-0!"
                       />
                     }
                     label={type.charAt(0).toUpperCase() + type.substring(1)}
@@ -171,9 +171,9 @@ const ManualAuth = () => {
 
           <div className="mt-7 flex flex-col" data-aos="zoom-in">
             <div className="flex items-center content-center gap-2 mx-auto">
-              <p className="m-0 w-[80px] border"></p>
+              <p className="m-0 w-20 border"></p>
               <span className="text-white text-sm">OR</span>
-              <p className="m-0 w-[80px] border"></p>
+              <p className="m-0 w-20 border"></p>
             </div>
 
             <div className="mt-7">

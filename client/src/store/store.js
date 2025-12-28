@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-
 import Auth from "./slice/client/auth";
 import QuizReducer from "./slice/admin/quiz";
 import SeriesReducer from "./slice/admin/series";

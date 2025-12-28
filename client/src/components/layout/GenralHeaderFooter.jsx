@@ -87,7 +87,7 @@ const GenralHeaderFooter = React.memo(() => {
             {isAuthenticated ? (
               <div className="flex items-center p-2 bg-gray-800 rounded-md">
                 <div className="flex items-center gap-3 w-full">
-                  <span className="text-white text-lg font-medium text-truncate max-w-[100%]">
+                  <span className="text-white text-lg font-medium text-truncate max-w-full">
                     {user?.name}
                   </span>
                 </div>
@@ -109,7 +109,7 @@ const GenralHeaderFooter = React.memo(() => {
         </div>
       </Drawer>
 
-      <main className="flex flex-col min-h-[100vh] justify-between">
+      <main className="flex flex-col min-h-screen justify-between">
         <header
           className={`text-gray-400 bg-gray-900 body-font sticky top-0 ${
             hasShadow ? "shadow-lg" : "shadow-none"
@@ -172,7 +172,7 @@ const GenralHeaderFooter = React.memo(() => {
         <footer className="text-gray-400 body-font bg-purple-flower">
           <div className="bg-gray-950 bg-opacity-75">
             <div className="w-11/12 md:px-5 md:py-16 py-10 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
-              <div className="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
+              <div className="w-64 shrink-0 md:mx-0 mx-auto text-center md:text-left">
                 <Link
                   to={"/"}
                   className="flex title-font font-medium items-center md:justify-start justify-center text-white"
@@ -218,7 +218,7 @@ const GenralHeaderFooter = React.memo(() => {
                   </nav>
                 </div>
               </div>
-              <div className="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
+              <div className="grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
                 <div className="lg:w-1/5 sm:w-1/2 w-full px-4">
                   <h2 className="title-font font-medium text-white tracking-widest text-sm mb-3">
                     Quick Links

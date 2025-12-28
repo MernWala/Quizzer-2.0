@@ -1,5 +1,3 @@
-import React from "react";
-
 const Textarea = (props) => {
 
     const {
@@ -25,7 +23,7 @@ const Textarea = (props) => {
                 placeholder=" "
                 value={value}
                 name={id}
-                className="bg-transparent outline-none text-neutral-700 w-full text-sm resize-none min-h-[100px] textarea-custom"
+                className="bg-transparent outline-none text-neutral-700 w-full text-sm resize-none min-h-25 textarea-custom"
                 onChange={onChange}
                 data-gramm="false"
                 data-gramm_editor="false"
