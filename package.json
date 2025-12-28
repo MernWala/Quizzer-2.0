@@ -1,0 +1,23 @@
+{
+  "name": "quizer",
+  "version": "2.0.0",
+  "description": "",
+  "scripts": {
+    "start": "concurrently \"nodemon ./backend/app.js\" \"cd ./client && npm run dev\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MernWala/quizer.git"
+  },
+  "keywords": [],
+  "author": "Shivam Kashyap",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/MernWala/quizer/issues"
+  },
+  "homepage": "https://github.com/MernWala/quizer#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
