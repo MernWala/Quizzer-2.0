@@ -3,19 +3,9 @@ import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import AdminQuestionPreview from "../../../components/AdminQuestionPreview";
+import AdminQuestionPreview, { ShimerQuestion } from "../../../components/AdminQuestionPreview";
 import { BsFillPlusCircleFill } from "react-icons/bs";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  Tooltip,
-} from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Button, FormControlLabel, Radio, RadioGroup, Tooltip } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import { IoCaretDownCircle, IoCloseCircle } from "react-icons/io5";
@@ -31,12 +21,7 @@ import useLocalStorage from "../../../hooks/useLocalStorage.js";
 import CustomToast from "../../../components/CustomToast.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { FaCheckCircle } from "react-icons/fa";
-import {
-  deleteQuestion,
-  fetchQuizDetails,
-  getQuizDetails,
-  questionAPICall,
-} from "../../../store/slice/admin/quizDetails.js";
+import { deleteQuestion, fetchQuizDetails, getQuizDetails, questionAPICall } from "../../../store/slice/admin/quizDetails.js";
 import DetailBox from "../../../components/DetailBox.jsx";
 import dayjs from "dayjs";
 import { updateQuiz } from "../../../store/slice/admin/quiz.js";
@@ -183,10 +168,10 @@ const Details = () => {
         aria-describedby="add-questions-description"
         open={modalState}
         onClose={handleCloseModal}
-        className="!min-height-[100vh] !overflow-auto"
+        className="!min-height-[100vh] overflow-auto!"
       >
         <Fade in={modalState}>
-          <div className="bg-gray-700 min-w-full min-h-[100vh] border-0">
+          <div className="bg-gray-700 min-w-full min-h-screen border-0">
             <div className="p-3 flex items-center justify-between bg-gray-800 sticky top-0 border-b border-opacity-10 z-10">
               <span className="font-semibold text-white tracking-wider text-lg">
                 {editMode ? "Add" : "Edit"} Question
@@ -201,13 +186,13 @@ const Details = () => {
                 <div className="flex flex-wrap">
                   <div className="lg:w-1/2 w-full lg:pe-2">
                     <div className="border border-gray-600 p-3 rounded-md relative h-full">
-                      <span className="text-white tracking-wider bg-gray-700 absolute top-[-1rem] px-2 text-truncate block max-w-full">
+                      <span className="text-white tracking-wider bg-gray-700 absolute -top-4 px-2 text-truncate block max-w-full">
                         Question Type
                       </span>
                       <RadioGroup
                         aria-labelledby="question-type-label"
                         name="type"
-                        className="!flex !flex-row !flex-wrap !text-white"
+                        className="flex! flex-row! flex-wrap! text-white!"
                         value={modalFormState?.type ?? "single_choice"}
                         onChange={(e) => handleOnChange(e, setModalFormState)}
                       >
@@ -231,7 +216,7 @@ const Details = () => {
                   </div>
                   <div className="lg:w-1/4 w-full lg:px-2 lg:mt-0 mt-7">
                     <div className="border border-gray-600 p-3 rounded-md relative h-full">
-                      <span className="text-white tracking-wider bg-gray-700 absolute top-[-1rem] px-2 text-truncate block max-w-full">
+                      <span className="text-white tracking-wider bg-gray-700 absolute -top-4 px-2 text-truncate block max-w-full">
                         Carry Marks
                       </span>
                       <Input
@@ -247,7 +232,7 @@ const Details = () => {
                   </div>
                   <div className="lg:w-1/4 w-full lg:ps-2 lg:mt-0 mt-7">
                     <div className="border border-gray-600 p-3 rounded-md relative h-full">
-                      <span className="text-white tracking-wider bg-gray-700 absolute top-[-1rem] px-2 text-truncate block max-w-full">
+                      <span className="text-white tracking-wider bg-gray-700 absolute -top-4 px-2 text-truncate block max-w-full">
                         Section
                       </span>
                       <Input
@@ -264,7 +249,7 @@ const Details = () => {
                 </div>
 
                 <div className="border border-gray-600 p-3 rounded-md relative">
-                  <span className="text-white tracking-wider bg-gray-700 absolute top-[-1rem] px-2 text-truncate block max-w-full">
+                  <span className="text-white tracking-wider bg-gray-700 absolute -top-4 px-2 text-truncate block max-w-full">
                     Question
                   </span>
                   <div>
@@ -282,33 +267,79 @@ const Details = () => {
                 {["single_choice", "multi_choice"].indexOf(
                   modalFormState?.type
                 ) >= 0 && (
-                  <div className="border border-gray-600 p-3 rounded-md relative">
-                    <span className="text-white tracking-wider bg-gray-700 absolute top-[-1rem] px-2 text-truncate block max-w-full">
-                      Set Options
-                    </span>
-                    <div className="flex flex-wrap">
-                      {(editMode === true
-                        ? modalFormState?.options?.length < 4
-                          ? [
+                    <div className="border border-gray-600 p-3 rounded-md relative">
+                      <span className="text-white tracking-wider bg-gray-700 absolute -top-4 px-2 text-truncate block max-w-full">
+                        Set Options
+                      </span>
+                      <div className="flex flex-wrap">
+                        {(editMode === true
+                          ? modalFormState?.options?.length < 4
+                            ? [
                               ...modalFormState?.options,
                               ...Array(
                                 4 - (modalFormState?.options?.length ?? 0)
                               ).fill(),
                             ]
-                          : modalFormState?.options
-                        : Array(4).fill()
-                      ).map((val, index, arr) => {
-                        return (
+                            : modalFormState?.options
+                          : Array(4).fill()
+                        ).map((val, index, arr) => {
+                          return (
+                            <div
+                              className="lg:w-1/4 md:w-1/2 w-full md:pe-3 lg:m-0 mb-3"
+                              key={index}
+                            >
+                              <Input
+                                label={`Option - ${index + 1} ${index > 1 ? "(Optional)" : ""
+                                  }`}
+                                id={`option_${index + 1}`}
+                                required={index > 1 ? false : true}
+                                type={"text"}
+                                onChange={(e) =>
+                                  handleOnChange(e, setModalFormState)
+                                }
+                                defaultValue={
+                                  editMode
+                                    ? val
+                                    : modalFormState?.[`option_${index + 1}`] ??
+                                    ""
+                                }
+                                disabled={loading}
+                              />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                {["single_choice", "multi_choice"].indexOf(
+                  modalFormState?.type
+                ) >= 0 && (
+                    <div className="border border-gray-600 p-3 rounded-md relative">
+                      <span className="text-white tracking-wider bg-gray-700 absolute -top-4 px-2 text-truncate block max-w-full">
+                        Set Answer
+                      </span>
+                      <div className="flex flex-wrap">
+                        {(editMode === true
+                          ? modalFormState?.answers?.length < 4
+                            ? [
+                              ...modalFormState?.answers,
+                              ...Array(
+                                4 - (modalFormState?.answers?.length ?? 0)
+                              ).fill(),
+                            ]
+                            : modalFormState?.answers
+                          : Array(4).fill()
+                        ).map((val, index) => (
                           <div
                             className="lg:w-1/4 md:w-1/2 w-full md:pe-3 lg:m-0 mb-3"
                             key={index}
                           >
                             <Input
-                              label={`Option - ${index + 1} ${
-                                index > 1 ? "(Optional)" : ""
-                              }`}
-                              id={`option_${index + 1}`}
-                              required={index > 1 ? false : true}
+                              label={`Option - ${index + 1} ${index > 0 ? "(Optional)" : ""
+                                }`}
+                              id={`answer_${index + 1}`}
+                              required={index > 0 ? false : true}
                               type={"text"}
                               onChange={(e) =>
                                 handleOnChange(e, setModalFormState)
@@ -316,66 +347,18 @@ const Details = () => {
                               defaultValue={
                                 editMode
                                   ? val
-                                  : modalFormState?.[`option_${index + 1}`] ??
-                                    ""
+                                  : modalFormState?.[`answer_${index + 1}`] ?? ""
                               }
                               disabled={loading}
                             />
                           </div>
-                        );
-                      })}
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                )}
-
-                {["single_choice", "multi_choice"].indexOf(
-                  modalFormState?.type
-                ) >= 0 && (
-                  <div className="border border-gray-600 p-3 rounded-md relative">
-                    <span className="text-white tracking-wider bg-gray-700 absolute top-[-1rem] px-2 text-truncate block max-w-full">
-                      Set Answer
-                    </span>
-                    <div className="flex flex-wrap">
-                      {(editMode === true
-                        ? modalFormState?.answers?.length < 4
-                          ? [
-                              ...modalFormState?.answers,
-                              ...Array(
-                                4 - (modalFormState?.answers?.length ?? 0)
-                              ).fill(),
-                            ]
-                          : modalFormState?.answers
-                        : Array(4).fill()
-                      ).map((val, index) => (
-                        <div
-                          className="lg:w-1/4 md:w-1/2 w-full md:pe-3 lg:m-0 mb-3"
-                          key={index}
-                        >
-                          <Input
-                            label={`Option - ${index + 1} ${
-                              index > 0 ? "(Optional)" : ""
-                            }`}
-                            id={`answer_${index + 1}`}
-                            required={index > 0 ? false : true}
-                            type={"text"}
-                            onChange={(e) =>
-                              handleOnChange(e, setModalFormState)
-                            }
-                            defaultValue={
-                              editMode
-                                ? val
-                                : modalFormState?.[`answer_${index + 1}`] ?? ""
-                            }
-                            disabled={loading}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                  )}
 
                 <div className="border border-gray-600 p-3 rounded-md relative">
-                  <span className="text-white tracking-wider bg-gray-700 absolute top-[-1rem] px-2 text-truncate block max-w-full">
+                  <span className="text-white tracking-wider bg-gray-700 absolute -top-4 px-2 text-truncate block max-w-full">
                     Any Image (Maximum 4 Images allowed)
                   </span>
                   <div className="flex gap-2 mt-2">
@@ -406,7 +389,7 @@ const Details = () => {
                       id={"imageUpload"}
                       required={false}
                       disabled={loading}
-                      onChange={() => {}}
+                      onChange={() => { }}
                       accept=".png, .jpg, .jpeg"
                     />
                   </div>
@@ -438,7 +421,7 @@ const Details = () => {
       <Box sx={{ width: "100%" }}>
         <Box
           sx={{ borderBottom: 1 }}
-          className="!border-gray-600 !sticky top-14 !bg-gray-700 bg-opacity-100 z-10 lg:!block !hidden"
+          className="border-gray-600! sticky! top-14 bg-gray-700! bg-opacity-100 z-10 lg:block! hidden!"
         >
           <Tabs
             value={value}
@@ -453,40 +436,36 @@ const Details = () => {
             }}
           >
             <Tab
-              className={`lg:!w-1/4 sm:!w-1/2 !w-full !min-w-[200px] !max-w-[unset] !tracking-wider !text-white ${
-                value === 0 ? "!font-medium" : ""
-              }`}
+              className={`lg:w-1/4! sm:w-1/2! w-full! min-w-50! max-w-[unset]! tracking-wider! text-white! ${value === 0 ? "font-medium!" : ""
+                }`}
               label="Questions"
               {...a11yProps(0)}
             />
             <Tab
-              className={`lg:!w-1/4 sm:!w-1/2 !w-full !min-w-[200px] !max-w-[unset] !tracking-wider !text-white ${
-                value === 1 ? "!font-medium" : ""
-              }`}
+              className={`lg:w-1/4! sm:w-1/2! w-full! min-w-50! max-w-[unset]! tracking-wider! text-white! ${value === 1 ? "font-medium!" : ""
+                }`}
               label="Settings"
               {...a11yProps(1)}
             />
             <Tab
-              className={`lg:!w-1/4 sm:!w-1/2 !w-full !min-w-[200px] !max-w-[unset] !tracking-wider !text-white ${
-                value === 2 ? "!font-medium" : ""
-              }`}
+              className={`lg:w-1/4! sm:w-1/2! w-full! min-w-50! max-w-[unset]! tracking-wider! text-white! ${value === 2 ? "font-medium!" : ""
+                }`}
               label="Registration"
               {...a11yProps(2)}
             />
             <Tab
-              className={`lg:!w-1/4 sm:!w-1/2 !w-full !min-w-[200px] !max-w-[unset] !tracking-wider !text-white ${
-                value === 3 ? "!font-medium" : ""
-              }`}
+              className={`lg:w-1/4! sm:w-1/2! w-full! min-w-50! max-w-[unset]! tracking-wider! text-white! ${value === 3 ? "font-medium!" : ""
+                }`}
               label="Enquiry"
               {...a11yProps(3)}
             />
           </Tabs>
         </Box>
 
-        <div className="px-4 py-3 bg-gray-800 lg:!hidden !block">
-          <Accordion className="!rounded-md !bg-gray-600">
+        <div className="px-4 py-3 bg-gray-800 lg:hidden! block!">
+          <Accordion className="rounded-md! bg-gray-600!">
             <AccordionSummary
-              className="!bg-gray-600 !rounded-md"
+              className="bg-gray-600! rounded-md!"
               expandIcon={
                 <IoCaretDownCircle size={25} className="text-white" />
               }
@@ -500,7 +479,7 @@ const Details = () => {
             <AccordionDetails className="bg-gray-700 rounded-b-md">
               <RadioGroup
                 aria-labelledby="control-pannel-label"
-                className="!flex lg:!flex-row !flex-col !flex-wrap !text-white"
+                className="flex! lg:flex-row! flex-col! flex-wrap! text-white!"
                 onChange={(e) => setValue(JSON.parse(e.target.value))}
                 value={value}
               >
@@ -528,6 +507,10 @@ const Details = () => {
                   <strong>Quiz:</strong> {data?.name}
                 </div>
 
+                {loading &&
+                  Array(3).fill(null).map((_, index) => <ShimerQuestion key={index} />)
+                }
+
                 {data?.questions?.map((question, index) => {
                   return (
                     <AdminQuestionPreview
@@ -547,23 +530,25 @@ const Details = () => {
                   );
                 })}
 
-                <div className="px-3 py-5 border-2 border-white/10 rounded-md bg-white/2 shadow-sm border-dashed">
-                  <button
-                    type="button"
-                    className="w-full h-full flex flex-col items-center justify-center outline-0"
-                    onClick={() => setModalState(true)}
-                  >
-                    <Tooltip title="Add Question" placement="right">
-                      <BsFillPlusCircleFill
-                        size={80}
-                        className="text-gray-700"
-                      />
-                    </Tooltip>
-                    <span className="text-gray-700 text-lg mt-3 capitalize">
-                      Click to add questions / use Command panel
-                    </span>
-                  </button>
-                </div>
+                {data?.questions &&
+                  <div className="px-3 py-5 border-2 border-white/10 rounded-md bg-white/2 shadow-sm border-dashed">
+                    <button
+                      type="button"
+                      className="w-full h-full flex flex-col items-center justify-center outline-0"
+                      onClick={() => setModalState(true)}
+                    >
+                      <Tooltip title="Add Question" placement="right">
+                        <BsFillPlusCircleFill
+                          size={80}
+                          className="text-gray-700"
+                        />
+                      </Tooltip>
+                      <span className="text-gray-700 text-lg mt-3 capitalize">
+                        Click to add questions / use Command panel
+                      </span>
+                    </button>
+                  </div>
+                }
               </div>
               {/* TODO - Command pannel is comment for next version */}
               {/* <div className='lg:w-2/5 lg:block hidden lg:ps-2 top-28 sticky max-h-[calc(100vh-7.7rem)] rounded-md'>
@@ -604,11 +589,11 @@ const Details = () => {
               <DetailBox.Title className={"pb-3"}>
                 <span className="text-lg font-medium text-white">
                   Basic Details:{" "}
-                  <span className="rounded-full bg-white/10 px-4 py-1 text-sm">
-                    {quizSettings?.visibility?.toString() === "true"
-                      ? "Visible"
-                      : "Hidden"}
-                  </span>
+                  {quizSettings?.visibility?.toString() === "true" ?
+                    <span className="rounded-full bg-green-800 px-4 py-1 text-sm"> Visible </span>
+                    :
+                    <span className="rounded-full bg-red-900 px-4 py-1 text-sm"> Hidden </span>
+                  }
                 </span>
               </DetailBox.Title>
               <DetailBox.Body
@@ -720,8 +705,8 @@ const Details = () => {
                           <td className="px-3 py-1 border-b border-t border-white/10">
                             {quizSettings?.expireOn
                               ? dayjs(quizSettings?.expireOn).format(
-                                  "DD MMM YYYY"
-                                )
+                                "DD MMM YYYY"
+                              )
                               : "No date set"}
                           </td>
                         </tr>
@@ -743,7 +728,7 @@ const Details = () => {
                   }
                 >
                   <div className="border border-gray-600 p-3 rounded-md relative h-full">
-                    <span className="text-white tracking-wider bg-gray-700 absolute top-[-1rem] px-2 text-truncate block max-w-full">
+                    <span className="text-white tracking-wider bg-gray-700 absolute -top-4 px-2 text-truncate block max-w-full">
                       Name
                     </span>
                     <Input
@@ -758,13 +743,13 @@ const Details = () => {
                   </div>
 
                   <div className="border border-gray-600 p-3 rounded-md relative h-full">
-                    <span className="text-white tracking-wider bg-gray-700 absolute top-[-1rem] px-2 text-truncate block max-w-full">
+                    <span className="text-white tracking-wider bg-gray-700 absolute -top-4 px-2 text-truncate block max-w-full">
                       Section Switch
                     </span>
                     <RadioGroup
                       aria-labelledby="question-type-label"
                       name="sectionSwitch"
-                      className="!flex !flex-row !flex-wrap !text-white"
+                      className="flex! flex-row! flex-wrap! text-white!"
                       value={quizSettings?.sectionSwitch}
                       onChange={(e) => handleOnChange(e, setQuizSettings)}
                     >
@@ -782,13 +767,13 @@ const Details = () => {
                   </div>
 
                   <div className="border border-gray-600 p-3 rounded-md relative h-full">
-                    <span className="text-white tracking-wider bg-gray-700 absolute top-[-1rem] px-2 text-truncate block max-w-full">
+                    <span className="text-white tracking-wider bg-gray-700 absolute -top-4 px-2 text-truncate block max-w-full">
                       Visibility
                     </span>
                     <RadioGroup
                       aria-labelledby="question-type-label"
                       name="visibility"
-                      className="!flex !flex-row !flex-wrap !text-white"
+                      className="flex! flex-row! flex-wrap! text-white!"
                       value={quizSettings?.visibility}
                       onChange={(e) => handleOnChange(e, setQuizSettings)}
                     >
@@ -808,13 +793,13 @@ const Details = () => {
                   {!seriesId && (
                     <>
                       <div className="border border-gray-600 p-3 rounded-md relative h-full">
-                        <span className="text-white tracking-wider bg-gray-700 absolute top-[-1rem] px-2 text-truncate block max-w-full">
+                        <span className="text-white tracking-wider bg-gray-700 absolute -top-4 px-2 text-truncate block max-w-full">
                           Quiz Type
                         </span>
                         <RadioGroup
                           aria-labelledby="question-type-label"
                           name="quizType"
-                          className="!flex !flex-row !flex-wrap !text-white"
+                          className="flex! flex-row! flex-wrap! text-white!"
                           value={quizSettings?.quizType ?? "Free"}
                           onChange={(e) => handleOnChange(e, setQuizSettings)}
                         >
@@ -837,7 +822,7 @@ const Details = () => {
                       </div>
 
                       <div className="border border-gray-600 p-3 rounded-md relative h-full">
-                        <span className="text-white tracking-wider bg-gray-700 absolute top-[-1rem] px-2 text-truncate block max-w-full">
+                        <span className="text-white tracking-wider bg-gray-700 absolute -top-4 px-2 text-truncate block max-w-full">
                           Total Time (0: Unlimited)
                         </span>
                         <Input
@@ -852,7 +837,7 @@ const Details = () => {
                       </div>
 
                       <div className="border border-gray-600 p-3 rounded-md relative h-full">
-                        <span className="text-white tracking-wider bg-gray-700 absolute top-[-1rem] px-2 text-truncate block max-w-full">
+                        <span className="text-white tracking-wider bg-gray-700 absolute -top-4 px-2 text-truncate block max-w-full">
                           Will be hideen after
                         </span>
                         <Input

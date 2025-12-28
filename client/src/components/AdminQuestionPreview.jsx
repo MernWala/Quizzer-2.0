@@ -42,7 +42,7 @@ const AdminQuestionPreview = ({
                 <div className="flex md:flex-row flex-col-reverse gap-1">
                     <div className='flex flex-row gap-1 w-full'>
                         <span> {sno}. </span>
-                        <div className='flex-[1]'>
+                        <div className='flex-1'>
                             {children}
 
                             <div>
@@ -118,11 +118,61 @@ const AdminQuestionPreview = ({
                     </div>
 
                     <div>
-                        <span className="inline-flex flex-shrink-0 rounded-full bg-gray-700 shadow-md px-3 py-1 text-sm text-truncate"> {marks} Marks </span>
+                        <span className="inline-flex shrink-0 rounded-full bg-gray-700 shadow-md px-3 py-1 text-sm text-truncate"> {marks} Marks </span>
                     </div>
                 </div>
             </div>
         </React.Fragment>
+    )
+}
+
+export const ShimerQuestion = () => {
+    return (
+        <div className='p-3 border border-white/5 rounded-md bg-white/2 shadow-sm'>
+            <div className="flex md:flex-row flex-col-reverse gap-1">
+                <div className='flex flex-row gap-1 w-full'>
+                    <span className='w-5 shimmerStyle max-h-5 rounded me-2'>&nbsp;</span>
+                    <div className='flex-1'>
+                        <div className="mb-6 max-w-[95%]">
+                            <div className='shimmerStyle rounded-md mb-2 h-4 w-full'></div>
+                            <div className='shimmerStyle rounded-md mb-2 h-4 w-[95%]'></div>
+                            <div className='shimmerStyle rounded-md mb-2 h-4 w-[90%]'></div>
+                        </div>
+
+                        <div className='max-w-60'>
+                            <div className='flex gap-2'>
+                                <div className='shimmerStyle h-4 rounded-md mb-2 w-1/12'></div>
+                                <div className='shimmerStyle h-4 rounded-md mb-2 w-full'></div>
+                            </div>
+                            <div className='flex gap-2'>
+                                <div className='shimmerStyle h-4 rounded-md mb-2 w-1/12'></div>
+                                <div className='shimmerStyle h-4 rounded-md mb-2 w-full'></div>
+                            </div>
+                            <div className='flex gap-2'>
+                                <div className='shimmerStyle h-4 rounded-md mb-2 w-1/12'></div>
+                                <div className='shimmerStyle h-4 rounded-md mb-2 w-full'></div>
+                            </div>
+                            <div className='flex gap-2'>
+                                <div className='shimmerStyle h-4 rounded-md mb-2 w-1/12'></div>
+                                <div className='shimmerStyle h-4 rounded-md mb-2 w-full'></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p className="w-full border-t border-gray-700 my-3"></p>
+                            <div className='flex gap-3'>
+                                <div className='shimmerStyle rounded-md w-25 h-8.75'></div>
+                                <div className='shimmerStyle rounded-md w-25 h-8.75'></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <span className="inline-flex shrink-0 rounded-full shadow-md px-3 py-1 text-sm shimmerStyle h-7.5 w-20"></span>
+                </div>
+            </div>
+        </div>
     )
 }
 

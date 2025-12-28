@@ -32,7 +32,7 @@ const AccountVerify = () => {
   }, [dispatch, params, CustomToast, navigate]);
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-[100vh] bg-purple-flower">
+    <div className="flex flex-col justify-center items-center min-h-screen bg-purple-flower">
       {loading && (
         <div
           className="flex items-center justify-center bg-[#00000080] p-4 rounded-md"

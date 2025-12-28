@@ -146,7 +146,7 @@ const DashboardLayoutWraper = () => {
                 }}
                 to={"/dashboard/admin"}
                 className={
-                  "border-red-500/50 hover:bg-red-500/50 hover:border-red-500/50 !text-red-500  hover:!text-white"
+                  "border-red-500/50 hover:bg-red-500/50 hover:border-red-500/50 text-red-500!  hover:text-white!"
                 }
               >
                 Logout
@@ -158,7 +158,7 @@ const DashboardLayoutWraper = () => {
             <div className="flex items-end p-2 bg-gray-800 rounded-md">
               <div className="flex items-center gap-3 w-full">
                 <Tooltip title={user?.name} placement="top">
-                  <span className="text-white text-lg font-medium text-truncate max-w-[100%] select-none">
+                  <span className="text-white text-lg font-medium text-truncate max-w-full select-none">
                     {user?.name}
                   </span>
                 </Tooltip>
@@ -178,7 +178,7 @@ const DashboardLayoutWraper = () => {
 
       <div className="fixed top-0 h-14 bg-gray-900 text-white flex z-50 w-full">
         <div className="flex w-full">
-          <div className="h-14 w-14 flex-shrink-0 bg-gray-950 md:hidden block">
+          <div className="h-14 w-14 shrink-0 bg-gray-950 md:hidden block">
             <Tooltip title={"Expand Sidebar"} placement="right">
               <button
                 type="button"
@@ -191,7 +191,7 @@ const DashboardLayoutWraper = () => {
               </button>
             </Tooltip>
           </div>
-          <div className="w-[calc(100vw-3.5rem)] flex items-center flex-[1]">
+          <div className="w-[calc(100vw-3.5rem)] flex items-center flex-1">
             <div className="lg:w-1/2 w-full flex lg:justify-start justify-center ps-4 lg:pe-0 pe-4">
               <span className="font-medium text-lg tracking-wider overflow-auto block w-full">
                 <DashboardTitle />
@@ -245,7 +245,7 @@ const DashboardLayoutWraper = () => {
                 </Link>
               </div>
 
-              <div className="h-14 w-14 bg-gray-950 flex-shrink-0">
+              <div className="h-14 w-14 bg-gray-950 shrink-0">
                 <Tooltip title={"Signout"}>
                   <button
                     type="button"

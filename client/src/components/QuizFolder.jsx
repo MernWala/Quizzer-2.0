@@ -98,14 +98,14 @@ const QuizFolder = ({
         MenuListProps={{ "aria-labelledby": "basic-button" }}
       >
         <MenuItem
-          className="!text-sm !py-1 !tracking-wider"
+          className="text-sm! py-1! tracking-wider!"
           onClick={() => handleOpenFolder(seriesId ? seriesId : id)}
         >
           Open
         </MenuItem>
         {seriesFlag && (
           <MenuItem
-            className="!text-sm !py-1 !tracking-wider"
+            className="text-sm! py-1! tracking-wider!"
             onClick={() => {
               setMenuPosition(null);
               setEditSeriesFlag(id);
@@ -115,7 +115,7 @@ const QuizFolder = ({
           </MenuItem>
         )}
         <MenuItem
-          className="!text-sm !py-1 !tracking-wider"
+          className="text-sm! py-1! tracking-wider!"
           onClick={() => {
             setMenuPosition(null);
             setDeleteFlag(true);
@@ -125,7 +125,7 @@ const QuizFolder = ({
           Delete
         </MenuItem>
         <MenuItem
-          className="!text-sm !py-1 !tracking-wider"
+          className="text-sm! py-1! tracking-wider!"
           onClick={() => {
             setMenuPosition(null);
             setInformationModal(true);
@@ -154,7 +154,7 @@ const QuizFolder = ({
         <Fade in={informationModal}>
           <Box
             sx={{ transform: "translate(-50%, -50%)" }}
-            className={`absolute top-[50%] left-[50%] w-[400px] rounded-md shadow-md bg-gray-800 !backdrop-brightness-50 !backdrop-blur-md overflow-hidden`}
+            className={`absolute top-[50%] left-[50%] w-100 rounded-md shadow-md bg-gray-800 backdrop-brightness-50! backdrop-blur-md! overflow-hidden`}
           >
             {deleteFlag && (
               <div className="bg-gray-700 py-1 px-2 text-white tracking-wide">
