@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import AdminQuestionPreview from "../../../components/AdminQuestionPreview";
+import AdminQuestionPreview, { ShimerQuestion } from "../../../components/AdminQuestionPreview";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 import { Accordion, AccordionDetails, AccordionSummary, Button, FormControlLabel, Radio, RadioGroup, Tooltip } from "@mui/material";
 import Modal from "@mui/material/Modal";
@@ -507,6 +507,10 @@ const Details = () => {
                   <strong>Quiz:</strong> {data?.name}
                 </div>
 
+                {loading &&
+                  Array(3).fill(null).map((_, index) => <ShimerQuestion key={index} />)
+                }
+
                 {data?.questions?.map((question, index) => {
                   return (
                     <AdminQuestionPreview
@@ -526,23 +530,25 @@ const Details = () => {
                   );
                 })}
 
-                <div className="px-3 py-5 border-2 border-white/10 rounded-md bg-white/2 shadow-sm border-dashed">
-                  <button
-                    type="button"
-                    className="w-full h-full flex flex-col items-center justify-center outline-0"
-                    onClick={() => setModalState(true)}
-                  >
-                    <Tooltip title="Add Question" placement="right">
-                      <BsFillPlusCircleFill
-                        size={80}
-                        className="text-gray-700"
-                      />
-                    </Tooltip>
-                    <span className="text-gray-700 text-lg mt-3 capitalize">
-                      Click to add questions / use Command panel
-                    </span>
-                  </button>
-                </div>
+                {data?.questions &&
+                  <div className="px-3 py-5 border-2 border-white/10 rounded-md bg-white/2 shadow-sm border-dashed">
+                    <button
+                      type="button"
+                      className="w-full h-full flex flex-col items-center justify-center outline-0"
+                      onClick={() => setModalState(true)}
+                    >
+                      <Tooltip title="Add Question" placement="right">
+                        <BsFillPlusCircleFill
+                          size={80}
+                          className="text-gray-700"
+                        />
+                      </Tooltip>
+                      <span className="text-gray-700 text-lg mt-3 capitalize">
+                        Click to add questions / use Command panel
+                      </span>
+                    </button>
+                  </div>
+                }
               </div>
               {/* TODO - Command pannel is comment for next version */}
               {/* <div className='lg:w-2/5 lg:block hidden lg:ps-2 top-28 sticky max-h-[calc(100vh-7.7rem)] rounded-md'>
