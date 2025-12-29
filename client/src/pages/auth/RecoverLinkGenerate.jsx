@@ -1,12 +1,12 @@
 import { useContext, useState } from "react";
-import Spinner from "../components/Spinner";
-import Input from "../components/input/Input";
+import Spinner from "../../components/Spinner";
+import Input from "../../components/input/Input";
 import { TiArrowBack } from "react-icons/ti";
 import { Link } from "react-router-dom";
-import CommonContext from "../context/common/CommonContext";
-import CustomToast from "../components/CustomToast";
+import CommonContext from "../../context/common/CommonContext";
+import CustomToast from "../../components/CustomToast";
 import { useDispatch, useSelector } from "react-redux";
-import { requestPasswordReset } from "../store/slice/client/auth";
+import { requestPasswordReset } from "../../store/slice/client/auth";
 
 const RecoverLinkGenerate = () => {
   const { handleOnChange } = useContext(CommonContext);

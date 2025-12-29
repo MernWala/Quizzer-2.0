@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import Spinner from "../components/Spinner";
+import Spinner from "../../components/Spinner";
 import { GoCheckCircleFill } from "react-icons/go";
-import { verifyAccount } from "../store/slice/client/auth";
-import CustomToast from "../components/CustomToast"
+import { verifyAccount } from "../../store/slice/client/auth";
+import CustomToast from "../../components/CustomToast"
 
 const AccountVerify = () => {
   const [params] = useSearchParams();

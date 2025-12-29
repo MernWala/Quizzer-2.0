@@ -1,12 +1,12 @@
 import { useContext, useState } from "react";
-import Spinner from "../components/Spinner";
-import Input from "../components/input/Input";
+import Spinner from "../../components/Spinner";
+import Input from "../../components/input/Input";
 import { TiArrowBack } from "react-icons/ti";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import CommonContext from "../context/common/CommonContext";
+import CommonContext from "../../context/common/CommonContext";
 import { useDispatch, useSelector } from "react-redux";
-import { resetPassword } from "../store/slice/client/auth";
-import CustomToast from "../components/CustomToast";
+import { resetPassword } from "../../store/slice/client/auth";
+import CustomToast from "../../components/CustomToast";
 
 const ChangePassword = () => {
   const { handleOnChange } = useContext(CommonContext);

@@ -1,12 +1,12 @@
-import { useContext, useEffect, useState } from "react";
-import Input from "../components/input/Input";
+import { useContext, useState } from "react";
+import Input from "../../components/input/Input";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import Spinner from "../components/Spinner";
-import CommonContext from "../context/common/CommonContext";
+import Spinner from "../../components/Spinner";
+import CommonContext from "../../context/common/CommonContext";
 import { useDispatch, useSelector } from "react-redux";
-import { attemptAuth } from "../store/slice/client/auth";
-import CustomToast from "../components/CustomToast";
+import { attemptAuth } from "../../store/slice/client/auth";
+import CustomToast from "../../components/CustomToast";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 
 const ManualAuth = () => {

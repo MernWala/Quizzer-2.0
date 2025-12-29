@@ -1,13 +1,13 @@
 import { createHashRouter, Outlet, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./utils/404";
-import ManualAuth from "./auth/ManualAuth";
+import ManualAuth from "./pages/auth/ManualAuth";
 import Pricing from "./pages/Pricing";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import RecoverLinkGenerate from "./auth/RecoverLinkGenerate";
-import ChangePassword from "./auth/ChangePassword";
-import AccountVerify from "./auth/AccountVerify";
+import RecoverLinkGenerate from "./pages/auth/RecoverLinkGenerate";
+import ChangePassword from "./pages/auth/ChangePassword";
+import AccountVerify from "./pages/auth/AccountVerify";
 import PublicQuizzes from "./pages/PublicQuizzes";
 import TermsConditions from "./pages/legal_pages/TermsConditions";
 import PrivacyPolicy from "./pages/legal_pages/PrivacyPolicy";
